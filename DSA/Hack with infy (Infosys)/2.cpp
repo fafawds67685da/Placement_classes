@@ -25,60 +25,33 @@ int main()
         cin>>z;
         villian.push_back(z);
     }
-    vector<int>h2 = villian;
-    int j=0;
-    for(int i =0;i<M;i++)
+    int left = 0;
+    int right = N-1;
+    while(left<M && right>-1)
     {
-        while(heroes[i] > 0 && j < N)
+        if(heroes[left]>=villian[right])
         {
-            if(villian[j]<heroes[i])
-            {
-                heroes[i]-=villian[j];
-                j+=1;
-            }
-            else if(villian[j]==heroes[i])
-            {
-                j+=1;
-                break;
-            }
-            else
-            {
-                break;
-            }
+            heroes[left]-=villian[right];
+            right-=1;
+        }
+        else if(heroes[left]<villian[right])
+        {
+            left+=1;
+        }
+        else
+        {
+            left+=1;
+            right-=1;
         }
     }
-    if(j==N)
+    if(right!=-1)
     {
-        cout<<"\t 0 \n";
+        cout<<right+1<<"\n";
     }
     else
     {
-        j = 0;
-        reverse(h2.begin(), h2.end());
-        for(int i =0;i<M;i++)
-        {
-            while(h2[i]>0)
-            {
-                if(villian[j]<h2[i])
-                {
-                    h2[i]-=villian[j];
-                    j+=1;
-                }
-                else if(villian[j]==h2[i])
-                {
-                    j+=1;
-                    break;
-                }
-                else
-                {
-                    break;
-                }
-            }
-        }
-
-        cout<<"\t"<<N-j<<"\n";
-
+        cout<<0<<"\n";
     }
-    return 0;
 
+    return 0;
 }
