@@ -2,6 +2,18 @@
 #include <unordered_map>
 using namespace std;
 
+int gcd(int a, int b)
+{
+    while (b != 0)
+    {
+        int r = a % b;
+        a = b;
+        b = r;
+    }
+    return a;
+}
+
+
 int main()
 {
     string s;
@@ -9,52 +21,34 @@ int main()
 
     unordered_map<char,int> mp;
 
-    // count characters
-    for(char c : s)
-        mp[c]++;
-
-    int odd = -1;
-
-    // find any odd count
-    for(auto p : mp)
+    int l = s.length();
+    for(int i =0;i<l;i++)
     {
-        if(p.second % 2 != 0)
+        if(mp.find(s[i])!=mp.end())
         {
-            odd = p.second;
-            break;
+            mp[s[i]]+=1;
+        }
+        else
+        {
+            mp[s[i]]=1;
         }
     }
-
-    // if odd exists
-    if(odd != -1)
+    int arr[mp.size()];
+    int z = 0;
+    for(auto it=mp.begin();it!=mp.end();it++)
     {
-        for(auto p : mp)
-        {
-            if(p.second % odd != 0)
-            {
-                cout << 1;
-                return 0;
-            }
-        }
-        cout << odd;
+        arr[z++]=it->second;
     }
-    else
+    int x=0;
+    for(int i =0;i<mp.size()-1;i++)
     {
-        int smallest = 1e9;
-
-        for(auto p : mp)
-            smallest = min(smallest, p.second);
-
-        for(auto p : mp)
-        {
-            if(p.second % smallest != 0)
-            {
-                cout << 1;
-                return 0;
-            }
-        }
-        cout << smallest;
+        x = gcd(arr[i],arr[i+1]);
     }
-
+    if(x==0)
+    {
+        cout<<"\t Maximum number of pieces we can get are: "<<arr[0]<<"\n";
+        return 0;
+    }
+    cout<<"\t Maximum number of pieces we can get are: "<<x<<"\n";
     return 0;
 }
